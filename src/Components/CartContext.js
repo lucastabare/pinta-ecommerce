@@ -10,49 +10,57 @@ const CartContextProvider = ({ children }) => {
   const addItem = (item, qty) => {
     let found = cartList.find((product) => product.idItem === item.id);
     if (found === undefined) {
-      setCartList([
+      setCarList([
         ...cartList,
         {
           idItem: item.id,
+          descriptionItem: item.description,
           imgItem: item.image[0],
           nameItem: item.name,
-          costItem: item.cost,
+          costItem: item.price,
           qtyItem: qty,
         },
       ]);
     } else {
-      //al encontrarlo, entonces aumentamos el qty de ese producto
       found.qtyItem += qty;
-      setCartList([...cartList]);
+      setCarList([...cartList]);
     }
   };
 
-  const removeItem = (id) => {
-    let result = cartList.filter((item) => item.idItem !== id);
-    setCarList(result);
-  };
-
-  const clear = () => {
+  const removeItem = () => {
     setCarList([]);
   };
 
-  const calcItemsQty = () => {
-    return cartList.length;
-  };
-
-  const calcTotal = () => {
-    return calcSubTotal();
+  const clear = (id) => {
+    let result = cartList.filter((item) => item.idItem != id);
+    setCarList(result);
   };
 
   const calcTotalItems = (idItem) => {
     let index = cartList.map((item) => item.idItem).indexOf(idItem);
-    return cartList[index].costItem * cartList[index].qty;
+    return cartList[index].costItem * cartList[index].qtyItem;
   };
 
   const calcSubTotal = () => {
-    let totalItems = cartList.map((item) => calcTotalItems(item.idItem));
-    return totalItems.reduce(
+    let totalPerItem = cartList.map((item) => calcTotalItems(item.idItem));
+    return totalPerItem.reduce(
       (previousValue, currentValue) => previousValue + currentValue
+    );
+  };
+
+  const calcImpuestos = () => {
+    return calcSubTotal() * 0.21;
+  };
+
+  const calcTotal = () => {
+    return calcSubTotal() + calcImpuestos();
+  };
+
+  const calcItemsQty = () => {
+    let qtys = cartList.map((item) => item.qtyItem);
+    return qtys.reduce(
+      (previousValue, currentValue) => previousValue + currentValue,
+      0
     );
   };
 
@@ -68,6 +76,7 @@ const CartContextProvider = ({ children }) => {
         calcTotal,
         calcSubTotal,
         calcTotalItems,
+        calcImpuestos,
       }}
     >
       {children}

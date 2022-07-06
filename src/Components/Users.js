@@ -6,7 +6,6 @@ const Users = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Link to="/iniciarSecion">
         <img
           src={imgUsers}
           alt="userIcon"
@@ -14,7 +13,6 @@ const Users = () => {
           height="40"
           title="Login"
         />
-      </Link>
     </div>
   );
 };
