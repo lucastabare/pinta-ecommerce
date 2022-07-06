@@ -1,4 +1,4 @@
-# Proyecto Ecommerce Con React Js.
+# Pinta Bebidas - Proyecto Ecommerce Con React Js.
 
 Este proyecto esta realizado con React JS, usa como base de datos Firebase para almacenar informacion de los productos y asu vez las ordenes de compras.
 ## Vista Previa
